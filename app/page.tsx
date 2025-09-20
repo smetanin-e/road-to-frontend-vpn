@@ -1,4 +1,5 @@
 import { Button } from '@/shared/components/ui/button';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -9,10 +10,12 @@ export default function Home() {
         Безопасный доступ к интернету для ограниченного круга пользователей. Пожалуйста, войдите в
         систему, чтобы управлять своими настройками и конфигурациями WireGuard.
       </p>
-
-      <Button size='lg' className='px-8 py-4'>
-        Войти
-      </Button>
+      <Link href={'/login'}>
+        {' '}
+        <Button size='lg' className='px-8 py-4'>
+          Войти
+        </Button>
+      </Link>
 
       <footer className='mt-20 text-gray-500 text-sm'>
         &copy; 2025 MyVPN. Все права защищены.

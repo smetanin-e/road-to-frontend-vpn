@@ -1,12 +1,13 @@
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
+import { Profile } from '@/shared/components/profile';
 
 export default function DashboardPage() {
   return (
     <div className='container mx-auto p-6 space-y-6'>
       <h1 className='text-3xl font-bold'>Личный кабинет</h1>
-
+      <Profile />
       <Card className='rounded-2xl shadow'>
         <CardHeader>
           <CardTitle>Моя подписка</CardTitle>
