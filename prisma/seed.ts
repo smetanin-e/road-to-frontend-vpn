@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function generateData() {
   const user = {
     login: 'Admin',
-    telegram: '@esmet',
+    telegram: 'https://t.me/esmet',
     password: 'Mkoks2010',
     firstName: 'Евгений',
     lastName: 'Сметанин',

@@ -1,11 +1,11 @@
 import { z } from 'zod';
-
-export const passwordSchema = z
-  .string()
-  .min(8, { message: 'Пароль должен содержать минимум 8 символов' });
+import { passwordSchema } from './password-schema';
 
 export const loginSchema = z.object({
-  login: z.string().min(2, { message: 'Введите логин' }),
+  login: z
+    .string()
+    .min(2, { message: 'Введите логин' })
+    .regex(/^[A-Za-z].*$/, { message: 'Логин должен начинаться с латинской буквы' }),
   password: passwordSchema,
 });
 

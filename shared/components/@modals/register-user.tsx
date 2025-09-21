@@ -5,27 +5,58 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/shared/components/ui';
 import { FormInput } from '@/shared/components';
 import { FormProvider, useForm } from 'react-hook-form';
+import { AtSign } from 'lucide-react';
+import { createUserSchema, CreateUserType } from '@/shared/schemas/create-user-schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+import { createUser } from '@/shared/services/auth/auth-service';
 
 interface Props {
   className?: string;
 }
 
 export const RegisterUser: React.FC<Props> = () => {
-  const form = useForm();
-  const onSubmit = async (data: any) => {
-    console.log(data);
+  const [submiting, setSubmiting] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const form = useForm<CreateUserType>({
+    resolver: zodResolver(createUserSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      phone: '+7',
+      login: '',
+      password: '',
+      confirmPassword: '',
+      telegram: '',
+    },
+  });
+
+  const onSubmit = async (data: CreateUserType) => {
+    try {
+      setSubmiting(true);
+      await createUser(data);
+      toast.success('Аккаунт успешно создан!!!', { icon: '✅' });
+      setOpen(false);
+      setSubmiting(false);
+      form.reset();
+    } catch (error) {
+      if (error instanceof Error) {
+        setSubmiting(false);
+        console.log('Error [REGISTER_FORM]', error);
+        return toast.error(error.message, { icon: '❌' });
+      }
+    }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline' size='sm'>
+        <Button type='button' variant='outline' size='sm'>
           Создать пользователя
         </Button>
       </DialogTrigger>
@@ -34,7 +65,9 @@ export const RegisterUser: React.FC<Props> = () => {
           <DialogTitle className='text-2xl font-bold text-center'>
             Создание пользователя
           </DialogTitle>
-          <DialogDescription className='text-center'>Регистрация пользователя</DialogDescription>
+          <DialogDescription className='text-center'>
+            Добавление нового пользователя
+          </DialogDescription>
         </DialogHeader>
         <FormProvider {...form}>
           <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
@@ -60,17 +93,30 @@ export const RegisterUser: React.FC<Props> = () => {
                 />
               </div>
             </div>
-            {/* <PhoneInput /> */}
-            <div className='space-y-2'>
-              <FormInput label='Телефон' name='phone' id='phone' type='tel' required />
-            </div>
-            <div className='space-y-2'>
+            <div className='space-y-2 relative'>
               <FormInput
                 label='telegram'
                 name='telegram'
                 id='telegram'
                 type='text'
-                placeholder='@user'
+                placeholder='user' // https://t.me/user
+                required
+              >
+                <AtSign className='absolute left-3 top-3 h-4 w-4 text-muted-foreground' />
+              </FormInput>
+            </div>
+            {/* <PhoneInput /> */}
+            <div className='space-y-2'>
+              <FormInput label='Телефон' name='phone' id='phone' type='tel' required />
+            </div>
+
+            <div className='space-y-2'>
+              <FormInput
+                label='Логин'
+                name='login'
+                id='login'
+                type='text'
+                placeholder='Логин'
                 required
               />
             </div>
@@ -94,8 +140,8 @@ export const RegisterUser: React.FC<Props> = () => {
                 required
               />
             </div>
-            <Button className='w-full' type='submit'>
-              Создать
+            <Button className='w-full' type='submit' disabled={submiting}>
+              {submiting ? 'Загрузка...' : 'Создать'}
             </Button>
           </form>
         </FormProvider>
