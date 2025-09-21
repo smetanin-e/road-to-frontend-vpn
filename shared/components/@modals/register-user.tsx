@@ -16,6 +16,7 @@ import { createUserSchema, CreateUserType } from '@/shared/schemas/create-user-s
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { createUser } from '@/shared/services/auth/auth-service';
+import { useUserStore } from '@/shared/store/user';
 
 interface Props {
   className?: string;
@@ -41,6 +42,7 @@ export const RegisterUser: React.FC<Props> = () => {
     try {
       setSubmiting(true);
       await createUser(data);
+      useUserStore.getState().getClients();
       toast.success('Аккаунт успешно создан!!!', { icon: '✅' });
       setOpen(false);
       setSubmiting(false);
