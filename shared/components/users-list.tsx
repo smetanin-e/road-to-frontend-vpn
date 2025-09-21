@@ -16,9 +16,10 @@ import {
   Switch,
 } from '@/shared/components/ui';
 import Link from 'next/link';
-import { Send, Trash2 } from 'lucide-react';
+import { Crown, Send, Trash2 } from 'lucide-react';
 import { useUserStore } from '../store/user';
 import { LoadingBounce } from './loading-bounce';
+import { UserRole } from '@prisma/client';
 interface Props {
   className?: string;
 }
@@ -60,7 +61,14 @@ export const UsersList: React.FC<Props> = () => {
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
                     <TableCell>
-                      {user.firstName} {user.lastName}
+                      <div className=' flex items-center space-x-2'>
+                        <p>
+                          {user.firstName} {user.lastName}
+                        </p>
+                        {user.role === UserRole.ADMIN && (
+                          <Crown className='w-5 h-5 text-purple-700' />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Link href={user.telegram} target='_blank'>
