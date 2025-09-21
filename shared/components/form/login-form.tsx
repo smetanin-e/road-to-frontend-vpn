@@ -8,6 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { signIn } from '@/shared/services/auth/sign-in';
 import { useRouter } from 'next/navigation';
+import { UserRole } from '@prisma/client';
+import { getMe } from '@/shared/services/auth/get-me';
+
 interface Props {
   className?: string;
 }
@@ -24,8 +27,9 @@ export const LoginForm: React.FC<Props> = () => {
   const onSubmit = async (data: LoginFormType) => {
     try {
       await signIn(data);
+      const user = await getMe();
+      router.push(user?.role === UserRole.ADMIN ? '/admin' : '/dashboard');
       toast.success('Вы успешно вошли в аккаунт', { icon: '✅' });
-      router.replace('/dashboard');
     } catch (error) {
       if (error instanceof Error) {
         console.log('Error [REGISTER_FORM]', error);

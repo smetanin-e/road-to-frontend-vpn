@@ -3,6 +3,7 @@ import { setRefreshTokenCookie } from '@/shared/lib/auth/set-refresh-token-cooki
 import { loginSchema } from '@/shared/schemas/login-schema';
 import { loginUser } from '@/shared/services/auth/auth-service';
 import { generateAccessToken } from '@/shared/services/auth/token-service';
+import { UserRole } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {

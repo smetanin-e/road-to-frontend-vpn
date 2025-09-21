@@ -7,7 +7,7 @@ export async function getMeServer(): Promise<User | null> {
   try {
     const cookieStore = cookies();
 
-    const res = await axiosInstance.get(`${process.env.API_URL_SERVER}/api/auth/me`, {
+    const res = await axiosInstance.get(`${process.env.API_URL_SERVER}/auth/me`, {
       headers: {
         Cookie: (await cookieStore).toString(),
       },

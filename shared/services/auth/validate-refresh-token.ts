@@ -19,8 +19,6 @@ export async function validateRefreshToken(token: string) {
     },
   });
 
-  console.log('validateRefreshToken=====', session?.user);
-
   if (!session) {
     throw new Error('Недействительный refresh токен');
   }
