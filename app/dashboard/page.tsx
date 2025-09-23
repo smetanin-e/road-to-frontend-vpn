@@ -2,6 +2,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
 import { Profile } from '@/shared/components/profile';
+import { Payment } from '@/shared/components/@modals/payment';
 
 export default function DashboardPage() {
   return (
@@ -17,7 +18,7 @@ export default function DashboardPage() {
           <p className='text-muted-foreground'>Истекает: 31.10.2025</p>
           <Badge variant='secondary'>Активна</Badge>
           <div>
-            <Button className='mt-4'>Продлить подписку</Button>
+            <Payment />
           </div>
         </CardContent>
       </Card>

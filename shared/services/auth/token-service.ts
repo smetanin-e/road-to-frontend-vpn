@@ -27,28 +27,28 @@ export function generateRefreshToken() {
   return crypto.randomBytes(64).toString('hex').normalize();
 }
 
-// type JwtPayload = {
-//   userId: string;
-//   role: 'USER' | 'ADMIN';
-// };
+type JwtPayload = {
+  userId: string;
+  role: 'USER' | 'ADMIN';
+};
 
-// export async function getUserFromAccessToken(token: string): Promise<User | null> {
-//   try {
-//     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+export async function getUserFromAccessToken(token: string): Promise<User | null> {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         id: Number(decoded.userId),
-//       },
-//     });
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(decoded.userId),
+      },
+    });
 
-//     if (!user) {
-//       return null;
-//     }
+    if (!user) {
+      return null;
+    }
 
-//     return user;
-//   } catch (error) {
-//     console.error('[getUserFromAccessToken]', error);
-//     return null;
-//   }
-// }
+    return user;
+  } catch (error) {
+    console.error('[getUserFromAccessToken]', error);
+    return null;
+  }
+}
