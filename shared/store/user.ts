@@ -10,6 +10,7 @@ type User = {
   role: string;
   firstName: string;
   lastName: string;
+  balance: number;
 } | null;
 
 interface UserState {

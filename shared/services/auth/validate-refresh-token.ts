@@ -14,6 +14,7 @@ export async function validateRefreshToken(token: string) {
           role: true,
           firstName: true,
           lastName: true,
+          balance: true,
         },
       },
     },

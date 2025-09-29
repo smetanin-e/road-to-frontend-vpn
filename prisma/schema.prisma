@@ -69,7 +69,9 @@ model Transaction {
     description String
 
     createdAt DateTime @default(now())
-    paimantId String?
+    paymentId String?
+
+    paymentUrl String?
 }
 
 model Subscription {

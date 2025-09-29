@@ -51,6 +51,14 @@ export async function POST(req: NextRequest) {
     //ссылка которая перенаправит нас на платеж
     const paymentUrl = paymentData.confirmation.confirmation_url;
 
+    //сохраняем ссылку в БД
+    await prisma.transaction.update({
+      where: { id: transaction.id },
+      data: {
+        paymentUrl,
+      },
+    });
+
     return NextResponse.json(paymentUrl);
   } catch (error) {
     console.error('[API_TRANSACTION] Server error', error);

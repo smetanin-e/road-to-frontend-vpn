@@ -9,19 +9,6 @@ export default function DashboardPage() {
     <div className='container mx-auto p-6 space-y-6'>
       <h1 className='text-3xl font-bold'>Личный кабинет</h1>
       <Profile />
-      <Card className='rounded-2xl shadow'>
-        <CardHeader>
-          <CardTitle>Моя подписка</CardTitle>
-        </CardHeader>
-        <CardContent className='space-y-2'>
-          <p className='text-muted-foreground'>Тариф: Standard</p>
-          <p className='text-muted-foreground'>Истекает: 31.10.2025</p>
-          <Badge variant='secondary'>Активна</Badge>
-          <div>
-            <Payment />
-          </div>
-        </CardContent>
-      </Card>
 
       <Card className='rounded-2xl shadow'>
         <CardHeader>

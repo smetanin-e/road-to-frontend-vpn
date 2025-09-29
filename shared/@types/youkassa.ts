@@ -40,7 +40,7 @@ export interface PaymentCallbackData {
   event: string;
   object: {
     id: string;
-    status: string;
+    status: string; // "pending" | "waiting_for_capture" | "succeeded" | "canceled"
     amount: { value: string; currency: 'RUB' };
     income_amount: { value: string; currency: 'RUB' };
     description: string;
@@ -57,7 +57,7 @@ export interface PaymentCallbackData {
     refunded_amount: { value: string; currency: 'RUB' };
     paid: boolean;
     refuntable: true;
-    metadata: { order_id: string };
+    metadata: { transactionId: string };
     authorization_details: {
       rrn: string;
       auth_code: string;
