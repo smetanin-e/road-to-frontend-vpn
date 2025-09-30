@@ -80,8 +80,9 @@ model Subscription {
     userId Int  @unique
     user   User @relation(fields: [userId], references: [id])
 
-    dailyPrice     Decimal
-    nextChargeData DateTime
+    dailyPrice  Decimal
+    maxPeers    Int
+    description String
 
     createdAt DateTime @default(now())
     active    Boolean  @default(true)
