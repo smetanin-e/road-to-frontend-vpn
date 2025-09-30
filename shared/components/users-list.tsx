@@ -20,6 +20,7 @@ import { Crown, Send, Trash2 } from 'lucide-react';
 import { useUserStore } from '../store/user';
 import { LoadingBounce } from './loading-bounce';
 import { UserRole } from '@prisma/client';
+import { RegisterUser } from './@modals';
 interface Props {
   className?: string;
 }
@@ -33,7 +34,6 @@ export const UsersList: React.FC<Props> = () => {
     getClients();
   }, []);
 
-  console.log(users);
   return (
     <Card className='rounded-2xl shadow relative min-h-40'>
       {loading ? (
@@ -41,7 +41,10 @@ export const UsersList: React.FC<Props> = () => {
       ) : (
         <>
           <CardHeader>
-            <CardTitle>Пользователи</CardTitle>
+            <div className='flex justify-between gap-4'>
+              <CardTitle>Пользователи</CardTitle>
+              <RegisterUser />
+            </div>
           </CardHeader>
           <CardContent>
             <Table>

@@ -28,7 +28,9 @@ model User {
     sessions     Session[]
     peers        WireguardPeer[]
     transactions Transaction[]
-    subscription Subscription? // активная подписка/тариф
+
+    subscriptionId Int?          @unique
+    subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 }
 
 model Session {
@@ -77,9 +79,9 @@ model Transaction {
 model Subscription {
     id Int @id @default(autoincrement())
 
-    userId Int  @unique
-    user   User @relation(fields: [userId], references: [id])
+    users User[]
 
+    name        String
     dailyPrice  Decimal
     maxPeers    Int
     description String

@@ -1,18 +1,21 @@
 import { prisma } from '@/shared/lib/prisma-client';
+import { SubscriptionFormType } from '@/shared/schemas/subcription-schema';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, dailyPrice, maxPeers, description } = await req.json();
-    if (!userId || dailyPrice == null || maxPeers == null)
-      return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    const data = (await req.json()) as SubscriptionFormType;
+
+    if (!data) {
+      return NextResponse.json({ error: 'Невалидные данные' }, { status: 400 });
+    }
 
     const subscription = await prisma.subscription.create({
       data: {
-        userId,
-        dailyPrice,
-        maxPeers,
-        description,
+        name: data.name,
+        dailyPrice: data.dailyPrice,
+        maxPeers: Number(data.maxPeers),
+        description: data.description,
         active: true,
       },
     });
