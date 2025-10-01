@@ -3,11 +3,11 @@
 import { generateSalt, hashPassword, verifyPassword } from '@/shared/lib/auth/passwordHasher';
 import { prisma } from '@/shared/lib/prisma-client';
 import { generateRefreshToken } from './token-service';
-import { Prisma } from '@prisma/client';
+import { CreateUserType } from '@/shared/schemas/create-user-schema';
 
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
 
-export async function createUser(data: Prisma.UserCreateInput) {
+export async function createUser(data: CreateUserType) {
   try {
     const salt = generateSalt();
     const hashedPassword = await hashPassword(data.password, salt);
@@ -22,6 +22,14 @@ export async function createUser(data: Prisma.UserCreateInput) {
       throw new Error('Пользователь с таким логином уже существует');
     }
 
+    const subscription = await prisma.subscription.findFirst({
+      where: { id: Number(data.subscription) },
+    });
+
+    if (!subscription) {
+      throw new Error('Подписка не найдена');
+    }
+
     const user = await prisma.user.create({
       data: {
         login: data.login,
@@ -31,6 +39,7 @@ export async function createUser(data: Prisma.UserCreateInput) {
         lastName: data.lastName,
         phone: data.phone,
         telegram: 'https://t.me/' + data.telegram,
+        subscriptionId: subscription.id,
       },
     });
 

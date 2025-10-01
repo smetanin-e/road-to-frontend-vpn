@@ -16,24 +16,27 @@ import { CreateSubscription } from './@modals';
 import { Subscription } from '@prisma/client';
 import { getSubscribtions } from '../services/subscription';
 import { LoadingBounce } from './loading-bounce';
+import { useSubscriptionStore } from '../store/subscription';
 
 interface Props {
   className?: string;
 }
 
 export const SubscriptionList: React.FC<Props> = () => {
-  const [subscription, setSubscription] = React.useState<Subscription[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  //   const [subscription, setSubscription] = React.useState<Subscription[]>([]);
+  //   const [loading, setLoading] = React.useState(false);
 
-  const fetchSubscriptions = async () => {
-    setLoading(true);
-    const data = await getSubscribtions();
-    setSubscription(data);
-    setLoading(false);
-  };
+  //   const fetchSubscriptions = async () => {
+  //     setLoading(true);
+  //     const data = await getSubscribtions();
+  //     setSubscription(data);
+  //     setLoading(false);
+  //   };
+
+  const { loading, getSubscriptions, subscription } = useSubscriptionStore();
 
   React.useEffect(() => {
-    fetchSubscriptions();
+    getSubscriptions();
   }, []);
   return (
     <Card className='rounded-2xl shadow relative min-h-40'>

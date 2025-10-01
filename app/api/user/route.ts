@@ -13,6 +13,7 @@ export async function GET() {
         lastName: true,
         phone: true,
         telegram: true,
+        subscription: true,
       },
     });
     return NextResponse.json(users);

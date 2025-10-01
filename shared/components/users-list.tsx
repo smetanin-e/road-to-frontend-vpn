@@ -54,6 +54,7 @@ export const UsersList: React.FC<Props> = () => {
                   <TableHead>Пользователь</TableHead>
                   <TableHead>Телеграм</TableHead>
                   <TableHead>Логин</TableHead>
+                  <TableHead>Подписка</TableHead>
                   <TableHead>Статус</TableHead>
                   <TableHead className='text-right'>Действия</TableHead>
                 </TableRow>
@@ -85,6 +86,9 @@ export const UsersList: React.FC<Props> = () => {
                       </Link>
                     </TableCell>
                     <TableCell>{user.login}</TableCell>
+                    <TableCell>
+                      {user.subscription ? user.subscription.name : 'Отсутствует'}
+                    </TableCell>
                     <TableCell>
                       <Badge variant={user.status ? 'success' : 'destructive'}>
                         {' '}

@@ -1,6 +1,6 @@
-import { User } from '@prisma/client';
+import { Subscription, User } from '@prisma/client';
 
 export type UserDTO = Pick<
   User,
   'id' | 'firstName' | 'lastName' | 'login' | 'role' | 'phone' | 'telegram' | 'status'
->;
+> & { subscription: Subscription };

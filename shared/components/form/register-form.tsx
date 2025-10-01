@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Button } from '@/shared/components/ui';
-import { FormInput } from '@/shared/components';
+import { FormInput, FormSubscriptionSelect } from '@/shared/components';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AtSign } from 'lucide-react';
 import { createUserSchema, CreateUserType } from '@/shared/schemas/create-user-schema';
@@ -90,6 +90,10 @@ export const RegisterForm: React.FC<Props> = ({ setOpen }) => {
           <FormInput label='Телефон' name='phone' id='phone' type='tel' required />
         </div>
 
+        {/* Подписка */}
+        <div className='space-y-2'>
+          <FormSubscriptionSelect required name='subscription' label='Выберите подписку' />
+        </div>
         <div className='space-y-2'>
           <FormInput
             label='Логин'

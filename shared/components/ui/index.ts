@@ -6,3 +6,4 @@ export { Switch } from './switch';
 export * from './card';
 export * from './table';
 export * from './dialog';
+export * from './select';
