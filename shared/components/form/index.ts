@@ -6,3 +6,4 @@ export { RegisterForm } from './register-form';
 
 export { FormSubscription } from './form-subscription';
 export { FormSubscriptionSelect } from './form-subscription-select';
+export { CreatePeerForm } from './create-peer-form';

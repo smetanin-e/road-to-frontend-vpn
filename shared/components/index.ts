@@ -9,3 +9,5 @@ export { Providers } from './providers';
 export { StoreProvider } from './store-provider';
 
 export { SubscriptionList } from './subscription';
+export { PeerListCard } from './peer-list-card';
+export { PeerItem } from './peer-item';

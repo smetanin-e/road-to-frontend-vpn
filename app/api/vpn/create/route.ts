@@ -1,15 +1,16 @@
 import { prisma } from '@/shared/lib/prisma-client';
+import { CreateVPN } from '@/shared/services/dto/vpn.dto';
 import { WgPeerStatus } from '@prisma/client';
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import QRCode from 'qrcode';
 
 const WG_API_URL = process.env.WG_API_URL;
-const WG_API_PASSWORD = process.env.WG_API_PASSWORD;
+const WG_API_TOKEN = process.env.WG_API_TOKEN;
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, userId } = await req.json();
+    const { name, userId } = (await req.json()) as CreateVPN;
 
     if (!name || !userId) {
       return NextResponse.json({ error: 'Name and userId are required' }, { status: 400 });
@@ -35,28 +36,40 @@ export async function POST(req: NextRequest) {
 
     // Создаём пира через wg-rest-api
     const createRes = await axios.post(
-      `${WG_API_URL}/api/v1/peers`,
+      `${WG_API_URL}/api/clients`,
       { name },
-      { headers: { Authorization: `Bearer ${WG_API_PASSWORD}` } },
+      { headers: { Authorization: `Bearer ${WG_API_TOKEN}` } },
     );
 
     const peerData = createRes.data;
 
-    //Получаем конфиг
-    const configRes = await axios.get(`${WG_API_URL}/api/v1/peers/${peerData.id}/config`, {
-      headers: { Authorization: `Bearer ${WG_API_PASSWORD}` },
+    // Получаем конфиг напрямую из wg-rest-api
+    const configRes = await axios.get(`${WG_API_URL}/api/clients/${peerData.id}?format=conf`, {
+      headers: { Authorization: `Bearer ${WG_API_TOKEN}` },
       responseType: 'text',
     });
-    const config = configRes.data;
+
+    const config: string = configRes.data;
+
+    // Парсим ключи и адрес из конфига
+    const privateKey = config.match(/PrivateKey\s*=\s*(.+)/)?.[1] ?? '';
+    const publicKey = config.match(/PublicKey\s*=\s*(.+)/)?.[1] ?? '';
+    const address = config.match(/Address\s*=\s*(.+)/)?.[1] ?? '';
+
+    if (!privateKey || !publicKey || !address) {
+      console.error('Config parse error:', config);
+      return NextResponse.json({ error: 'Failed to parse WireGuard config' }, { status: 500 });
+    }
 
     //Сохраняем в БД
     const peer = await prisma.wireguardPeer.create({
       data: {
         userId,
         peerName: name,
-        publicKey: peerData.publicKey,
-        privateKey: peerData.privateKey,
-        address: peerData.address,
+        publicKey,
+        privateKey,
+        address,
+        id: peerData.id,
         status: WgPeerStatus.ACTIVE,
       },
     });

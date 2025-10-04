@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
       },
       data: {
         status: isSucceeded ? OrderStatus.SUCCEEDED : OrderStatus.CANCELED,
+        paymentId: body.object.id,
       },
     });
 
