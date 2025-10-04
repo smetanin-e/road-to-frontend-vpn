@@ -1,5 +1,6 @@
 import { setAccessTokenCookie } from '@/shared/lib/auth/set-access-token-cookie';
 import { setRefreshTokenCookie } from '@/shared/lib/auth/set-refresh-token-cookie';
+import { updateUserDetails } from '@/shared/lib/update-user-details';
 import { loginSchema } from '@/shared/schemas/login-schema';
 import { loginUser } from '@/shared/services/auth/auth-service';
 import { generateAccessToken } from '@/shared/services/auth/token-service';
@@ -29,6 +30,8 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({ accessToken });
     setRefreshTokenCookie(response, refreshToken, refreshTokenMaxAge);
     setAccessTokenCookie(response, accessToken, accessTokenMaxAge);
+
+    updateUserDetails(user.id);
 
     return response;
   } catch (error) {

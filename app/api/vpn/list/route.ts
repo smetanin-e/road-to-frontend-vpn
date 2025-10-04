@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
 
     const list = await prisma.wireguardPeer.findMany({
       where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(list);
   } catch (error) {

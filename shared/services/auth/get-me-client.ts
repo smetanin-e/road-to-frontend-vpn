@@ -1,9 +1,9 @@
-import { User } from '@prisma/client';
 import { axiosInstance } from '@/shared/services';
+import { CurrentUser } from '../dto/users.dto';
 
-export async function getMeClient(): Promise<User | null> {
+export async function getMeClient(): Promise<CurrentUser | null> {
   try {
-    const res = await axiosInstance.get<User>('auth/me', {
+    const res = await axiosInstance.get<CurrentUser>('auth/me', {
       withCredentials: true,
     });
 

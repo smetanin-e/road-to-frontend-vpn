@@ -1,23 +1,14 @@
 import { create } from 'zustand';
 import { getMe } from '../services/auth/get-me';
 import { refreshAccessToken } from '../services/auth/refresh-access-token';
-import { UserDTO } from '../services/dto/users.dto';
+import { CurrentUser, UserDTO } from '../services/dto/users.dto';
 import { getUsersFromDb } from '../services/users';
-
-type User = {
-  id: number;
-  login: string;
-  role: string;
-  firstName: string;
-  lastName: string;
-  balance: number;
-} | null;
 
 interface UserState {
   //=======Авторизированный пользователь==============
-  user: User | null;
+  user: CurrentUser | null;
   loading: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: CurrentUser | null) => void;
   initUser: () => Promise<void>;
 
   //=======Список клиентов==============

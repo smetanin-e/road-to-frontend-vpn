@@ -1,22 +1,7 @@
 import React from 'react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  Button,
-  TableHeader,
-  TableHead,
-  TableRow,
-  Table,
-  TableBody,
-  TableCell,
-  Badge,
-  Switch,
-} from '@/shared/components/ui';
+import { Button, TableRow, TableCell, Badge, Switch } from '@/shared/components/ui';
 import { WgPeerStatus } from '@prisma/client';
 import axios from 'axios';
-import { axiosInstance } from '../services';
 import { activatePeer, deactivatePeer } from '../services/peer';
 import toast from 'react-hot-toast';
 interface Props {
@@ -55,12 +40,12 @@ export const PeerItem: React.FC<Props> = ({ id, name, status }) => {
       setLoading(true);
       if (statusPeer === WgPeerStatus.ACTIVE) {
         await deactivatePeer(id);
-        toast.success('Конфиг отключен');
         setStatusPeer(WgPeerStatus.INACTIVE);
+        toast.success('Конфиг отключен');
       } else {
         await activatePeer(id);
-        toast.success('Конфиг активирован');
         setStatusPeer(WgPeerStatus.ACTIVE);
+        toast.success('Конфиг активирован');
       }
     } catch (error) {
       console.error('Failed to toggle peer status', error);
@@ -94,6 +79,7 @@ export const PeerItem: React.FC<Props> = ({ id, name, status }) => {
           checked={status === WgPeerStatus.ACTIVE}
           onCheckedChange={toggleStatus}
           disabled={loading}
+          className='data-[state=checked]:bg-success data-[state=unchecked]:bg-gray-400'
         />
       </TableCell>
     </TableRow>

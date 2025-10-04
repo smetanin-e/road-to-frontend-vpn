@@ -1,9 +1,10 @@
 'use server';
-import { User } from '@prisma/client';
+
 import { cookies } from 'next/headers';
 import { axiosInstance } from '../instance';
+import { CurrentUser } from '../dto/users.dto';
 
-export async function getMeServer(): Promise<User | null> {
+export async function getMeServer(): Promise<CurrentUser | null> {
   try {
     const cookieStore = cookies();
 

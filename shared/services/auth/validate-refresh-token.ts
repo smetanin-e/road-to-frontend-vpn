@@ -15,6 +15,10 @@ export async function validateRefreshToken(token: string) {
           firstName: true,
           lastName: true,
           balance: true,
+          subsEnd: true,
+          subscription: {
+            select: { name: true, dailyPrice: true, maxPeers: true, description: true },
+          },
         },
       },
     },

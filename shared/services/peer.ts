@@ -2,10 +2,13 @@ import axios from 'axios';
 import { axiosInstance } from './instance';
 import { CreateVPN } from './dto/vpn.dto';
 import { usePeerStore } from '../store/peer';
+import { useUserStore } from '../store/user';
 
 export async function createPeer(value: CreateVPN) {
   try {
     const { data } = await axiosInstance.post('/vpn/create', value);
+    usePeerStore.getState().getPeers();
+    useUserStore.getState().initUser();
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -37,6 +40,7 @@ export async function deactivatePeer(id: number) {
       },
     );
     usePeerStore.getState().getPeers();
+    useUserStore.getState().initUser();
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -56,6 +60,7 @@ export async function activatePeer(id: number) {
       },
     );
     usePeerStore.getState().getPeers();
+    useUserStore.getState().initUser();
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

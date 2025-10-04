@@ -1,3 +1,4 @@
+import { updateUserDetails } from '@/shared/lib/update-user-details';
 import { generateAccessToken } from '@/shared/services/auth/token-service';
 import { validateRefreshToken } from '@/shared/services/auth/validate-refresh-token';
 import { NextRequest, NextResponse } from 'next/server';
@@ -30,6 +31,8 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'Пользователь не авторизован' }, { status: 401 });
     }
+
+    updateUserDetails(user.id);
 
     return NextResponse.json(user);
   } catch (error) {

@@ -1,4 +1,5 @@
 import { prisma } from '@/shared/lib/prisma-client';
+import { updateUserDetails } from '@/shared/lib/update-user-details';
 import { CreateVPN } from '@/shared/services/dto/vpn.dto';
 import { WgPeerStatus } from '@prisma/client';
 import axios from 'axios';
@@ -29,10 +30,17 @@ export async function POST(req: NextRequest) {
     if (!user.subscription?.active)
       return NextResponse.json({ error: 'No active subscription' }, { status: 403 });
 
-    // лимит активных пиров = 5
-    const activePeersCount = user.peers.filter((p) => p.status === WgPeerStatus.ACTIVE).length;
-    if (activePeersCount >= 5)
-      return NextResponse.json({ error: 'Max number of active peers reached' }, { status: 403 });
+    // лимит активных пиров из подписки
+    const maxPeers = user.subscription.maxPeers;
+    const peersCount = user.peers.length;
+    if (peersCount >= maxPeers)
+      return NextResponse.json(
+        {
+          error:
+            'Достигнут лимит конфигураций, обратитесь к администратору для изменения условий подписки',
+        },
+        { status: 403 },
+      );
 
     // Создаём пира через wg-rest-api
     const createRes = await axios.post(
@@ -73,6 +81,8 @@ export async function POST(req: NextRequest) {
         status: WgPeerStatus.ACTIVE,
       },
     });
+
+    updateUserDetails(user.id);
 
     // Генерируем QR-код для конфигурации
     const qrCode = await QRCode.toDataURL(config);

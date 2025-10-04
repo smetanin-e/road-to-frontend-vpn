@@ -20,8 +20,8 @@ export const Payment: React.FC<Props> = () => {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button size='lg' className='px-8 py-4'>
-          Пополнить баланс
+        <Button size='sm' variant={'outline'} className='px-8 py-4'>
+          Пополнить
         </Button>
       </DialogTrigger>
       <DialogContent className='min-w-sm'>

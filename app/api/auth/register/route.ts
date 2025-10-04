@@ -1,3 +1,4 @@
+import { updateUserDetails } from '@/shared/lib/update-user-details';
 import { createUserSchema } from '@/shared/schemas/create-user-schema';
 import { createUser } from '@/shared/services/auth/auth-service';
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await createUser(result.data);
-
+    updateUserDetails(user.id);
     return user;
   } catch (error) {
     console.error('Ошибка при регистрации:', error);

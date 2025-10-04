@@ -5,21 +5,14 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-  Button,
   TableHeader,
   TableHead,
   TableRow,
   Table,
   TableBody,
-  TableCell,
-  Badge,
-  Switch,
 } from '@/shared/components/ui';
-import { WgPeerStatus, WireguardPeer } from '@prisma/client';
-import { getPeerList } from '../services/peer';
 import { LoadingBounce } from './loading-bounce';
 import { CreateVpn } from './@modals';
-import axios from 'axios';
 import { PeerItem } from './peer-item';
 import { usePeerStore } from '../store/peer';
 interface Props {
