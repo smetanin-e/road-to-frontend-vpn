@@ -4,6 +4,9 @@ import { WgPeerStatus } from '@prisma/client';
 import axios from 'axios';
 import { activatePeer, deactivatePeer } from '../services/peer';
 import toast from 'react-hot-toast';
+import { DeletePeer } from './delete-peer';
+import { Qr } from './@modals';
+import { Download } from 'lucide-react';
 interface Props {
   className?: string;
   name: string;
@@ -66,12 +69,11 @@ export const PeerItem: React.FC<Props> = ({ id, name, status }) => {
       </TableCell>
       <TableCell>
         <div className='flex gap-2 justify-end'>
-          <Button size={'sm'} variant='outline' onClick={() => downloadConfig(id, name)}>
-            Скачать {}.conf
+          <Button size={'icon'} variant='outline' onClick={() => downloadConfig(id, name)}>
+            <Download className='w-4 h-4' />
           </Button>
-          <Button size={'sm'} variant='outline'>
-            Показать QR-код
-          </Button>
+          <Qr peerId={id} peerName={name} />
+          <DeletePeer id={id} />
         </div>
       </TableCell>
       <TableCell className='text-right space-x-4'>

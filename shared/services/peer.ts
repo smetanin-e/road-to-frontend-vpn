@@ -18,6 +18,20 @@ export async function createPeer(value: CreateVPN) {
   }
 }
 
+export async function deletePeer(id: number) {
+  try {
+    const { data } = await axiosInstance.delete(`/vpn/${id}/delete`);
+    usePeerStore.getState().getPeers();
+    useUserStore.getState().initUser();
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.error || 'Ошибка удаления конфигурации');
+    }
+    throw error;
+  }
+}
+
 export async function getPeerList() {
   try {
     const { data } = await axiosInstance.get('/vpn/list');

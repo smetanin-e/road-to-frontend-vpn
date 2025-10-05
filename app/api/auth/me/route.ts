@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Пользователь не авторизован' }, { status: 401 });
     }
 
-    updateUserDetails(user.id);
+    await updateUserDetails(user.id);
 
     return NextResponse.json(user);
   } catch (error) {

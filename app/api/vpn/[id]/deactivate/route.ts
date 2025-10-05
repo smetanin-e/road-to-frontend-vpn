@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       data: { status: WgPeerStatus.INACTIVE },
     });
 
-    updateUserDetails(user.id);
+    await updateUserDetails(user.id);
 
     return NextResponse.json({ peer: updatedPeer });
   } catch (error) {

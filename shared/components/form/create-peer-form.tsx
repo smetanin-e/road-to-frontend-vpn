@@ -39,11 +39,11 @@ export const CreatePeerForm: React.FC<Props> = ({ setOpen }) => {
       <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='space-y-2'>
           <FormInput
-            label='name'
+            label='Название'
             name='name'
             id='name'
             type='text'
-            placeholder='Введите название файла конфигурации...'
+            placeholder='Введите название файла. Например: vpn'
             required
           />
         </div>

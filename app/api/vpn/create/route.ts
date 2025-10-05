@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    updateUserDetails(user.id);
+    await updateUserDetails(user.id);
 
     // Генерируем QR-код для конфигурации
     const qrCode = await QRCode.toDataURL(config);

@@ -40,12 +40,14 @@ export const PeerListCard: React.FC<Props> = () => {
           </CardHeader>
           <CardContent className='space-y-2'>
             {peers?.length === 0 ? (
-              <div>нету</div>
+              <div className='text-center py-8 text-muted-foreground'>
+                Список конфигурационных файлов пуст. Добавьте свою первую конфигурацию...
+              </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Название конфига</TableHead>
+                    <TableHead>Название</TableHead>
                     <TableHead>Статус</TableHead>
 
                     <TableHead className='text-right'>Действия</TableHead>

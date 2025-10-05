@@ -21,7 +21,7 @@ export const CreateVpn: React.FC<Props> = () => {
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button size='lg' className='px-8 py-4'>
-          Добавить VPN
+          Добавить конфигурацию
         </Button>
       </DialogTrigger>
       <DialogContent className='min-w-sm'>

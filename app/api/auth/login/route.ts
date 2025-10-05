@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     setRefreshTokenCookie(response, refreshToken, refreshTokenMaxAge);
     setAccessTokenCookie(response, accessToken, accessTokenMaxAge);
 
-    updateUserDetails(user.id);
+    await updateUserDetails(user.id);
 
     return response;
   } catch (error) {

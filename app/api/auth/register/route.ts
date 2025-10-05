@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await createUser(result.data);
-    updateUserDetails(user.id);
+    await updateUserDetails(user.id);
     return user;
   } catch (error) {
     console.error('Ошибка при регистрации:', error);
